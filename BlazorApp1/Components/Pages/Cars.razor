@@ -1,0 +1,24 @@
+﻿@page "/"
+@page "/cars/{id}/show"
+
+<p>@Id</p>
+
+<button class="btn btn-primary" @onclick='()=>Navigate("test1")'>Navigate ok</button>
+<button class="btn btn-primary" @onclick='()=>Navigate("parts w/ issue")'>Navigate problem</button>
+
+@code {
+    [Inject] public NavigationManager NavigationManager { get; set; }
+    [Parameter] public string? Id { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private void Navigate(string id)
+    {
+        var idEncoded = Escape(id);
+        NavigationManager.NavigateTo($"/cars/{idEncoded}/show");
+    }
+
+    public string Escape(string parameter) => Uri.EscapeDataString(parameter);
+}
